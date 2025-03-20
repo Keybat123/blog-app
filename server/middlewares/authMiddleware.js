@@ -9,10 +9,19 @@ export const isAuthenticated = async(req,res,next)=>{
         if(!decoded) return res.status(400).json({message: "Token not matched."})
         const user = await User.findById(decoded.userId)
         if(!user) return res.status(404).json({message: "User not found."})
-        res.user = user
+        req.user = user
         next()
     } catch (error) {
         console.log(error)
         return res.status(500).json({message: "Internal server error while authenticating user."})
+    }
+}
+
+export const isAdmin=(...roles)=>{
+    return (req,res,next)=>{
+        if(!roles.includes(req?.user.role)){
+            return res.status(403).json({message:  `user not authorized to access with this ${req?.user.role} role`})
+        }
+        next()
     }
 }

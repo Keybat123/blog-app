@@ -3,6 +3,7 @@ dotenv.config()
 import express from "express"
 import connectDB from "./config/index.js"
 import userRoutes from "./routes/user.routes.js"
+import blogRoutes from "./routes/blog.routes.js"
 import { v2 as cloudinary } from 'cloudinary';
 import fileUpload from "express-fileupload"
 import cookieParser from "cookie-parser"
@@ -28,6 +29,7 @@ cloudinary.config({
 
 //routes
 app.use("/api/v1/users",userRoutes)
+app.use("/api/v1/blogs",blogRoutes)
 app.get('/',(req,res)=>{
     res.send("Hello from main route")
 })
